@@ -2,3 +2,10 @@ flask
 requests
 scikit-learn==1.0.2
 python-dotenv
+numpy
+joblib
+pandas
+matplotlib
+seaborn
+scikit-learn
+plotly
