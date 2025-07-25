@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asteroid Data Insights</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Asteroid Dataset Insights</h1>
+        {% if error %}
+            <p style="color: red;">Error: {{ error }}</p>
+        {% endif %}
+
+        <div id="hazardPie" class="plot"></div>
+        <div id="diameterHist" class="plot"></div>
+        <div id="missScatter" class="plot"></div>
+
+        <a href="/">← Back to Home</a>
+    </div>
+
+    <script id="neoData" type="application/json">{{ data|tojson|safe }}</script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

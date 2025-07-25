@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🌍 Live Near-Earth Objects - NASA Feed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Live Near-Earth Objects</h1>
+        <p>These asteroids are passing close to Earth today ({{ date }}):</p>
+
+        {% if error %}
+            <div class="error">
+                <p><strong>Error:</strong> {{ error }}</p>
+            </div>
+        {% else %}
+            {% for neo in neos %}
+                <div class="neo-card">
+                    <h2>{{ neo.name }}</h2>
+                    <p><strong>Close Approach:</strong> {{ neo.close_approach }}</p>
+                    <p><strong>Miss Distance:</strong> {{ neo.miss_distance }} AU</p>
+                    <p><strong>Velocity:</strong> {{ neo.velocity }} km/s</p>
+                    <p><strong>Status:</strong>
+                        {% if neo.hazardous %}
+                            <span class="hazardous-text">🌋 Hazardous</span>
+                        {% else %}
+                            <span class="not-hazardous-text">✅ Not Hazardous</span>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <hr>
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

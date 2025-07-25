@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NEO Hazard Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>☄️ NEO Hazard Prediction</h1>
+
+    <!-- 🔘 Navigation Buttons -->
+    <div class="nav-buttons">
+      <a href="#" class="nav-btn" onclick="loadExample()">🔄 Load Example</a>
+      <a href="/live" class="nav-btn">🌍 Live NEO</a>
+      <a href="/insights" class="nav-btn">📊 Visualize</a>
+      <a href="/about" class="nav-btn">ℹ️ About</a>
+    </div>
+
+    {% if error_message %}
+      <div class="error">{{ error_message }}</div>
+    {% endif %}
+
+    <form method="POST" action="/predict" id="neoForm">
+      <div class="form-group">
+        <label>
+          Absolute Magnitude 
+          <span class="tooltip-icon">ℹ️
+            <span class="tooltip-text">Brightness of the asteroid (lower = brighter)</span>
+          </span>
+        </label>
+        <div class="range-indicator">Typical: 15 – 30</div>
+        <input type="number" step="any" name="abs_mag" placeholder="e.g., 22.1" required value="{{ input_values.abs_mag if input_values else '' }}">
+      </div>
+
+      <div class="form-group">
+        <label>
+          Min Diameter (km) 
+          <span class="tooltip-icon">ℹ️
+            <span class="tooltip-text">Minimum estimated size of the asteroid in km</span>
+          </span>
+        </label>
+        <div class="range-indicator">Range: 0.01 – 5</div>
+        <input type="number" step="any" name="dia_min" placeholder="e.g., 0.1" required value="{{ input_values.dia_min if input_values else '' }}">
+      </div>
+
+      <div class="form-group">
+        <label>
+          Max Diameter (km)
+          <span class="tooltip-icon">ℹ️
+            <span class="tooltip-text">Maximum estimated size of the asteroid in km</span>
+          </span>
+        </label>
+        <div class="range-indicator">Range: 0.02 – 10</div>
+        <input type="number" step="any" name="dia_max" placeholder="e.g., 0.3" required value="{{ input_values.dia_max if input_values else '' }}">
+      </div>
+
+      <div class="form-group">
+        <label>
+          Velocity (km/s)
+          <span class="tooltip-icon">ℹ️
+            <span class="tooltip-text">Speed of the asteroid relative to Earth</span>
+          </span>
+        </label>
+        <div class="range-indicator">Typical: 0 – 40</div>
+        <input type="number" step="any" name="velocity" placeholder="e.g., 5.2" required value="{{ input_values.velocity if input_values else '' }}">
+      </div>
+
+      <div class="form-group">
+        <label>
+          Miss Distance (AU)
+          <span class="tooltip-icon">ℹ️
+            <span class="tooltip-text">Closest distance the object will pass by Earth</span>
+          </span>
+        </label>
+        <div class="range-indicator">Typical: 0.01 – 2</div>
+        <input type="number" step="any" name="miss_distance" placeholder="e.g., 0.042" required value="{{ input_values.miss_distance if input_values else '' }}">
+      </div>
+
+      <button type="submit">🚀 Predict</button>
+    </form>
+
+    {% if prediction %}
+      <div id="prediction-box" class="{{ 'hazardous' if prediction == '🌋 Hazardous' else 'not-hazardous' }}">
+        {{ prediction }}
+        {% if prediction_proba %}
+          <div style="margin-top: 10px;">Probability: {{ prediction_proba }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if prediction_history %}
+      <h2>🕘 Prediction History</h2>
+      <ul class="history-list">
+        {% for entry in prediction_history %}
+          <li>
+            <strong>{{ entry.timestamp }}</strong>: 
+            {{ entry.result }} | Prob: {{ entry.probability if entry.probability else 'N/A' }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  <script>
+    function loadExample() {
+      const form = document.getElementById("neoForm");
+      form.abs_mag.value = 21.3;
+      form.dia_min.value = 0.13;
+      form.dia_max.value = 0.26;
+      form.velocity.value = 12.8;
+      form.miss_distance.value = 0.034;
+    }
+  </script>
+</body>
+</html>

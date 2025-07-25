@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About This Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>ℹ️ About This Project</h1>
+        <p>This project predicts whether a near-Earth object (NEO) is potentially hazardous using a machine learning model.</p>
+        <p>It uses features such as:</p>
+        <ul>
+            <li>Absolute Magnitude</li>
+            <li>Minimum & Maximum Estimated Diameter</li>
+            <li>Relative Velocity</li>
+            <li>Miss Distance</li>
+        </ul>
+        <p>Visual analytics are derived from historical NASA datasets, and real-time asteroid data is pulled from NASA's public API.</p>
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>
